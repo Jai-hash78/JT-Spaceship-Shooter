@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://54gagw2apq20"]
+
+[ext_resource type="Script" path="res://ecannon.gd" id="1_g2fj3"]
+[ext_resource type="Texture2D" uid="uid://cxauxblx3d8x1" path="res://regularExplosion06.png" id="2_0xygb"]
+[ext_resource type="PackedScene" uid="uid://dmnfrmv6fq7uw" path="res://emissile.tscn" id="2_5c61b"]
+[ext_resource type="Texture2D" uid="uid://rltkdstiayfb" path="res://PNG/Parts/gun09.png" id="3_j8x8d"]
+[ext_resource type="Texture2D" uid="uid://d30ct6x3p3xp4" path="res://regularExplosion00.png" id="3_q6ipa"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_atly8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0xygb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_q6ipa")
+}],
+"loop": false,
+"name": &"fire",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"load",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_inlt4"]
+radius = 7.0
+height = 32.0
+
+[node name="Ecannon" type="Area2D"]
+script = ExtResource("1_g2fj3")
+CbObj = ExtResource("2_5c61b")
+
+[node name="Cannon" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_j8x8d")
+
+[node name="Muzzle" type="Marker2D" parent="Cannon"]
+position = Vector2(30, 0)
+rotation = 1.5708
+
+[node name="fire" type="AnimatedSprite2D" parent="Cannon/Muzzle"]
+scale = Vector2(0.15, 0.15)
+sprite_frames = SubResource("SpriteFrames_atly8")
+animation = &"fire"
+autoplay = "fire"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 0)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_inlt4")
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="DetectRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+position = Vector2(216, 12)
+rotation = -3.14159
+scale = Vector2(241.969, -16.3634)
+
+[node name="InSight" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="InSight"]
+scale = Vector2(0.86878, 0.429365)
+polygon = PackedVector2Array(16, -8, 384, -64, 448, 0, 384, 64, 16, 8)
+
+[connection signal="animation_finished" from="Cannon/Muzzle/fire" to="." method="_on_fire_animation_finished"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_DetectRadius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_DetectRadius_body_exited"]
+[connection signal="body_entered" from="InSight" to="." method="_on_InSight_body_entered"]
+[connection signal="body_exited" from="InSight" to="." method="_on_InSight_body_exited"]

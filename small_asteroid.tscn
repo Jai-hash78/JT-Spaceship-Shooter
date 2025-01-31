@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyurmykvrrsus"]
+
+[ext_resource type="Texture2D" uid="uid://br1152vy66dcg" path="res://PNG/Meteors/meteorBrown_small2.png" id="1_bggdo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_272sw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ne42"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gjd2b"]
+
+[node name="Small Asteroids" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(77, 55)
+texture = ExtResource("1_bggdo")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(135, 116)
+texture = ExtResource("1_bggdo")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(219, 64)
+texture = ExtResource("1_bggdo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(76, 55)
+shape = SubResource("CircleShape2D_272sw")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(219, 65)
+shape = SubResource("CircleShape2D_8ne42")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(135, 117)
+shape = SubResource("CircleShape2D_gjd2b")

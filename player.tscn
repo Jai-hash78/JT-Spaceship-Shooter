@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://b4vc0obd66yie"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_417td"]
+[ext_resource type="Texture2D" uid="uid://x1mo0ony3bc5" path="res://PNG/Parts/gun10.png" id="2_n1s30"]
+[ext_resource type="Texture2D" uid="uid://cxauxblx3d8x1" path="res://regularExplosion06.png" id="3_yucia"]
+[ext_resource type="Texture2D" uid="uid://d30ct6x3p3xp4" path="res://regularExplosion00.png" id="4_sbw6q"]
+[ext_resource type="Texture2D" uid="uid://slecw3kepjqj" path="res://PNG/playerShip1_green.png" id="5_shdro"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mvmfh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_yucia")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_sbw6q")
+}],
+"loop": false,
+"name": &"fire",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"load",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_js7m5"]
+radius = 57.736
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+position = Vector2(68, 22)
+script = ExtResource("1_417td")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CoolDown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="Barrel" type="Sprite2D" parent="."]
+position = Vector2(27, -4)
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_n1s30")
+
+[node name="Fire" type="AnimatedSprite2D" parent="Barrel"]
+position = Vector2(1.99988, -24)
+scale = Vector2(0.17, 0.17)
+sprite_frames = SubResource("SpriteFrames_mvmfh")
+animation = &"fire"
+autoplay = "fire"
+frame = 1
+frame_progress = 1.0
+
+[node name="Muzzle" type="Marker2D" parent="Barrel"]
+position = Vector2(-0.000125885, -34)
+
+[node name="PlayerShip1Green" type="Sprite2D" parent="."]
+position = Vector2(-7, -5)
+rotation = 1.5708
+texture = ExtResource("5_shdro")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6, -6)
+scale = Vector2(0.589189, 0.541366)
+shape = SubResource("CircleShape2D_js7m5")
+
+[connection signal="timeout" from="CoolDown" to="." method="_on_cool_down_timeout"]
+[connection signal="animation_finished" from="Barrel/Fire" to="." method="_on_fire_animation_finished"]

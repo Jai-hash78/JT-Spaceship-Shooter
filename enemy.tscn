@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bixqkye3qt80a"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_6ulyr"]
+[ext_resource type="Texture2D" uid="uid://btwf63qp567gs" path="res://PNG/Enemies/enemyBlack1.png" id="1_qqgq7"]
+[ext_resource type="PackedScene" uid="uid://54gagw2apq20" path="res://ecannon.tscn" id="3_tif4s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jfdrs"]
+radius = 35.0143
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_61a2s"]
+radius = 270.0
+
+[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_6ulyr")
+
+[node name="Ecannon" parent="." instance=ExtResource("3_tif4s")]
+position = Vector2(31, -1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+rotation = -1.5708
+texture = ExtResource("1_qqgq7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jfdrs")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_61a2s")
+
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_DetectRadius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_DetectRadius_body_exited"]

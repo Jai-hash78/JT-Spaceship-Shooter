@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://byfloclwamsmf"]
+
+[ext_resource type="Script" path="res://missile.gd" id="1_d1cn3"]
+[ext_resource type="Texture2D" uid="uid://csa45kip5jsbb" path="res://PNG/Lasers/laserBlue07.png" id="1_yx60o"]
+[ext_resource type="PackedScene" uid="uid://xgj14fs0lex2" path="res://explosion.tscn" id="2_aedju"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_abpc3"]
+radius = 5.0
+height = 48.0
+
+[node name="Missile" type="Area2D"]
+script = ExtResource("1_d1cn3")
+explosionObj = ExtResource("2_aedju")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("1_yx60o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CapsuleShape2D_abpc3")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
